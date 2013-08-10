@@ -1,7 +1,7 @@
 //
 //  ofxObjective-C++Utility.h
 //
-//  Created by ISHII 2bit on 2013/08/08.
+//  Created by ISHII 2bit
 //
 //
 
@@ -65,7 +65,7 @@ vector<To> convertToVectorFromNSArray(NSArray *array, To(^convertor)(From from))
 }
 
 template <class From, class To>
-static NSArray *convertToNSArrayFromVector(vector<From> &vec, To(^convertor)(const From from)) {
+static NSArray *convertToNSArrayFromVector(const vector<From> &vec, To(^convertor)(const From &from)) {
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:vec.size()];
     for(int i = 0; i < vec.size(); i++) {
         [array addObject:convertor(vec[i])];
@@ -77,7 +77,7 @@ static string(^convertFromNSStringToStringBlocks)(NSString *str) = ^string(NSStr
     return convert(str);
 };
 
-static NSString *(^convertFromStringToNSStringBlocks)(string &str) = ^NSString *(string &str) {
+static NSString *(^convertFromStringToNSStringBlocks)(const string &str) = ^NSString *(const string &str) {
     return convert(str);
 };
 
