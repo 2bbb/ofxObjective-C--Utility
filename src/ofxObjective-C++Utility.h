@@ -47,7 +47,7 @@ static ofColor convert(CIColor *color) {
     return ofColor([color red], [color green], [color blue], [color alpha]);
 }
 
-#ifdef TARGET_OS_IPHONE
+#ifdef TARGET_OF_IPHONE
 
 static ofColor convert(UIColor *color) {
     CGFloat r, g, b, a;
@@ -70,7 +70,7 @@ static ofColor convert(NSColor *color) {
     return ofColor(r, g, b, a);
 }
 
-static UIColor *convert(const ofColor &color) {
+static NSColor *convert(const ofColor &color) {
     return [NSColor colorWithSRGBRed:color.r
                                green:color.g
                                 blue:color.b
