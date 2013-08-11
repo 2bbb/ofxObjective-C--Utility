@@ -43,6 +43,42 @@ static CGRect convert(ofRectangle &r) {
     };
 }
 
+static ofColor convert(CIColor *color) {
+    return ofColor([color red], [color green], [color blue], [color alpha]);
+}
+
+#ifdef TARGET_OS_IPHONE
+
+static ofColor convert(UIColor *color) {
+    CGFloat r, g, b, a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    return ofColor(r, g, b, a);
+}
+
+static UIColor *convert(const ofColor &color) {
+    return [UIColor colorWithRed:color.r
+                           green:color.g
+                            blue:color.b
+                           alpha:color.a];
+}
+
+#else
+
+static ofColor convert(NSColor *color) {
+    CGFloat r, g, b, a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    return ofColor(r, g, b, a);
+}
+
+static UIColor *convert(const ofColor &color) {
+    return [NSColor colorWithSRGBRed:color.r
+                               green:color.g
+                                blue:color.b
+                               alpha:color.a];
+}
+
+#endif
+
 static ofBuffer convert(NSData *data) {
     return ofBuffer((const char *)[data bytes], [data length]);
 }
