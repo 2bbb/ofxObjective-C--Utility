@@ -9,6 +9,8 @@
 #define __ofxObjective_C__Utility_h__
 
 #include "ofMain.h"
+#import <CoreFoundation/CoreFoundation.h>
+#import <Foundation/Foundation.h>
 
 static NSString *convert(string str) {
     return [NSString stringWithCString:str.c_str()
@@ -78,6 +80,35 @@ static NSColor *convert(const ofColor &color) {
 }
 
 #endif
+
+static CGImageRef convert(ofImage &image) {
+    size_t width = image.getWidth();
+    size_t height = image.getHeight();
+    ofImageType imageType = image.getPixelsRef().getImageType();
+    size_t bitsPerPixel = imageType == OF_IMAGE_COLOR ? 24 : 32;
+    size_t bytesPerRow = (imageType == OF_IMAGE_COLOR ? 3 : 4) * width;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
+    
+    CGDataProviderRef providerRef = CGDataProviderCreateWithData(NULL,
+                                                                 image.getPixels(),
+                                                                 bytesPerRow * height,
+                                                                 nil);
+    NSLog(@"%@", providerRef);
+    CGImageRef cgImage = CGImageCreate(width,
+                                       height,
+                                       8,
+                                       bitsPerPixel,
+                                       bytesPerRow,
+                                       colorSpace,
+                                       bitmapInfo,
+                                       providerRef,
+                                       NULL,
+                                       NO,
+                                       kCGRenderingIntentDefault);
+    NSLog(@"%@", cgImage);
+    return cgImage;
+}
 
 static ofBuffer convert(NSData *data) {
     return ofBuffer((const char *)[data bytes], [data length]);
