@@ -94,7 +94,6 @@ static CGImageRef convert(ofImage &image) {
                                                                  image.getPixels(),
                                                                  bytesPerRow * height,
                                                                  nil);
-    NSLog(@"%@", providerRef);
     CGImageRef cgImage = CGImageCreate(width,
                                        height,
                                        8,
@@ -106,7 +105,6 @@ static CGImageRef convert(ofImage &image) {
                                        NULL,
                                        NO,
                                        kCGRenderingIntentDefault);
-    NSLog(@"%@", cgImage);
     return cgImage;
 }
 
